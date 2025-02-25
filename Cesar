@@ -1,0 +1,55 @@
+def caesar_cipher_encrypt(message, shift):
+    encrypted_message = ""
+    for char in message:
+        if char.isalpha():
+            shift_base = ord('A') if char.isupper() else ord('a')
+            encrypted_message += chr((ord(char) - shift_base + shift) % 26 + shift_base)
+        elif char in 'éèàù':
+            accents = 'éèàù'
+            base = 'eeau'
+            encrypted_message += base[accents.index(char)]
+        else:
+            encrypted_message += char
+    return encrypted_message
+
+def caesar_cipher_decrypt(encrypted_message, shift):
+    decrypted_message = ""
+    for char in encrypted_message:
+        if char.isalpha():
+            shift_base = ord('A') if char.isupper() else ord('a')
+            decrypted_message += chr((ord(char) - shift_base - shift) % 26 + shift_base)
+        elif char in 'eeau':
+            accents = 'éèàù'
+            base = 'eeau'
+            decrypted_message += accents[base.index(char)]
+        else:
+            decrypted_message += char
+    return decrypted_message
+
+def main():
+    while True:
+        print("\nMenu:")
+        print("1. Chiffrer un message")
+        print("2. Déchiffrer un message")
+        print("3. Quitter")
+        
+        choice = input("Choisissez une option (1, 2, 3) : ")
+        
+        if choice == "1":
+            message = input("Entrez le message à chiffrer : ")
+            shift = int(input("Entrez le décalage : "))
+            encrypted_message = caesar_cipher_encrypt(message, shift)
+            print(f"Message chiffré : {encrypted_message}")
+        elif choice == "2":
+            encrypted_message = input("Entrez le message à déchiffrer : ")
+            shift = int(input("Entrez le décalage : "))
+            decrypted_message = caesar_cipher_decrypt(encrypted_message, shift)
+            print(f"Message déchiffré : {decrypted_message}")
+        elif choice == "3":
+            print("Au revoir!")
+            break
+        else:
+            print("Option invalide. Veuillez réessayer.")
+
+if __name__ == "__main__":
+    main()
